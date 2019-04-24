@@ -4,7 +4,6 @@ import android.content.Context;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -26,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
     SeekBar pitchSeek;
     SeekBar speedSeek;
     Spinner languageSpinner;
-    float pitchValue = 0.0f;
-    float speedValue = 0.0f;
+    float pitchValue;
+    float speedValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         pitchSeek = findViewById(R.id.pitchSeek);
         speedSeek = findViewById(R.id.speedSeek);
         languageSpinner = findViewById(R.id.languageSpinner);
+        pitchValue = 0.0f;
+        speedValue = 0.0f;
 
 
         editText.setOnKeyListener(new View.OnKeyListener() {
@@ -89,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
             }
 
         });        pitchSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 pitchValue = getConvertedValue(seekBar.getProgress());
                 Toast.makeText(seekBar.getContext(), "Pitch: "+(pitchValue+1)+" x ", Toast.LENGTH_SHORT).show();
 
-                // +1 since seek bar starts at 0
+                // Plus one since seek bar starts at 0
                 textToSpeech.setPitch(pitchValue+1.0f);
             }
         });
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 speedValue = getConvertedValueSpeed(seekBar.getProgress());
                 Toast.makeText(seekBar.getContext(), "Speed: "+(speedValue+1)+" x ", Toast.LENGTH_SHORT).show();
 
-                // +1 since seek bar starts at 0
+                // Plus one since seek bar starts at 0
                 textToSpeech.setSpeechRate(speedValue+1.0f);
             }
         });
@@ -163,8 +163,7 @@ public class MainActivity extends AppCompatActivity {
                 String text = editText.getText().toString();
 
                 // Convert Text to Speech Queue_Flush flushes resources once used
-
-                    textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null,null);
+                textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null,null);
 
 
             }
