@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TextToSpeech</string>
+    <string name="app_name">Text-To-Speech</string>
     <string-array name="language_array">
         <item>English</item>
         <item>Chinese</item>
