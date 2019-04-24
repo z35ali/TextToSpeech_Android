@@ -71,25 +71,23 @@ public class MainActivity extends AppCompatActivity {
                 // Change language based on Spinner Selection index value
                 if (position == 0){
                     textToSpeech.setLanguage(Locale.ENGLISH);
-                }else if(position == 1){
-                    textToSpeech.setLanguage(Locale.CANADA_FRENCH);
 
-                }else if(position == 2){
+                }else if(position == 1){
                     textToSpeech.setLanguage(Locale.CHINESE);
 
-                }else if(position == 3){
+                }else if(position == 2){
                     textToSpeech.setLanguage(Locale.FRENCH);
 
-                }else if(position == 4){
+                }else if(position == 3){
                     textToSpeech.setLanguage(Locale.GERMAN);
 
-                }else if(position == 5){
+                }else if(position == 4){
                     textToSpeech.setLanguage(Locale.ITALIAN);
 
-                }else if(position == 6){
+                }else if(position == 5){
                     textToSpeech.setLanguage(Locale.JAPANESE);
 
-                }else if(position == 7) {
+                }else if(position == 6) {
                     textToSpeech.setLanguage(Locale.KOREAN);
                 }
 
