@@ -22,9 +22,12 @@ public class MainActivity extends AppCompatActivity {
     Button speakButton;
 
     TextToSpeech textToSpeech;
+
     SeekBar pitchSeek;
     SeekBar speedSeek;
     Spinner languageSpinner;
+
+    // Seekbar values
     float pitchValue;
     float speedValue;
 
@@ -38,12 +41,16 @@ public class MainActivity extends AppCompatActivity {
         pitchSeek = findViewById(R.id.pitchSeek);
         speedSeek = findViewById(R.id.speedSeek);
         languageSpinner = findViewById(R.id.languageSpinner);
+
+        // Default pitch and speed
         pitchValue = 0.0f;
         speedValue = 0.0f;
 
 
         editText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View view, int keyCode, KeyEvent event) {
+
+                // If the user hits enter close the keyboard
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
@@ -61,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
-                // Change language based on Spinner Selection
+                // Change language based on Spinner Selection index value
                 if (position == 0){
                     textToSpeech.setLanguage(Locale.ENGLISH);
                 }else if(position == 1){
@@ -92,7 +99,9 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parentView) {
             }
 
-        });        pitchSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        });
+
+        pitchSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
 
             @Override
@@ -107,6 +116,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+
+                // Converts pitch seekbar into 0.5 increments
                 pitchValue = getConvertedValue(seekBar.getProgress());
                 Toast.makeText(seekBar.getContext(), "Pitch: "+(pitchValue+1)+" x ", Toast.LENGTH_SHORT).show();
 
@@ -129,6 +140,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+
+                // Converts speed seekbar into 0.5 increments
                 speedValue = getConvertedValueSpeed(seekBar.getProgress());
                 Toast.makeText(seekBar.getContext(), "Speed: "+(speedValue+1)+" x ", Toast.LENGTH_SHORT).show();
 
@@ -174,10 +187,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     public float getConvertedValue(int ratio){
 
         pitchValue = .5f * ratio;
+
         return pitchValue;
     }
 
