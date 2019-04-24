@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">TextToSpeech</string>
+    <string-array name="language_array">
+        <item>English</item>
+        <item>Canada French</item>
+        <item>Chinese</item>
+        <item>French</item>
+        <item>German</item>
+        <item>Italian</item>
+        <item>Japanese</item>
+        <item>Korean</item>
+    </string-array>
+</resources>
