@@ -18,21 +18,24 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Declare layout variables
     EditText editText;
     Button speakButton;
-
-    TextToSpeech textToSpeech;
-
     SeekBar pitchSeek;
     SeekBar speedSeek;
     Spinner languageSpinner;
+
+    TextToSpeech textToSpeech;
 
     // Seekbar values
     float pitchValue;
     float speedValue;
 
+    // Current spinner position
+    int currentPosition;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -45,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         // Default pitch and speed
         pitchValue = 0.0f;
         speedValue = 0.0f;
-
 
         editText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View view, int keyCode, KeyEvent event) {
@@ -71,24 +73,27 @@ public class MainActivity extends AppCompatActivity {
                 // Change language based on Spinner Selection index value
                 if (position == 0){
                     textToSpeech.setLanguage(Locale.ENGLISH);
+                    currentPosition = 0;
 
                 }else if(position == 1){
                     textToSpeech.setLanguage(Locale.CHINESE);
+                    currentPosition = 1;
 
                 }else if(position == 2){
                     textToSpeech.setLanguage(Locale.FRENCH);
-
+                    currentPosition = 2;
                 }else if(position == 3){
                     textToSpeech.setLanguage(Locale.GERMAN);
-
+                    currentPosition = 3;
                 }else if(position == 4){
                     textToSpeech.setLanguage(Locale.ITALIAN);
-
+                    currentPosition = 4;
                 }else if(position == 5){
                     textToSpeech.setLanguage(Locale.JAPANESE);
-
+                    currentPosition = 5;
                 }else if(position == 6) {
                     textToSpeech.setLanguage(Locale.KOREAN);
+                    currentPosition = 6;
                 }
 
             }
@@ -152,16 +157,45 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onInit(int status) {
 
-                // If there is no error set language
-                if(status!= TextToSpeech.ERROR){
+                // Restore the previous language otherwise default the language to English
+                if (savedInstanceState != null) {
+                    currentPosition = savedInstanceState.getInt("currentPosition");
 
-                    // Default Language
-                    textToSpeech.setLanguage(Locale.ENGLISH);
+                    // Change language based on Spinner Selection index value
+                    if (currentPosition == 0){
+                        textToSpeech.setLanguage(Locale.ENGLISH);
+                    }else if(currentPosition == 1){
+                        textToSpeech.setLanguage(Locale.CHINESE);
+
+
+                    }else if(currentPosition == 2){
+                        textToSpeech.setLanguage(Locale.FRENCH);
+
+                    }else if(currentPosition == 3){
+                        textToSpeech.setLanguage(Locale.GERMAN);
+
+                    }else if(currentPosition == 4){
+                        textToSpeech.setLanguage(Locale.ITALIAN);
+
+                    }else if(currentPosition == 5){
+                        textToSpeech.setLanguage(Locale.JAPANESE);
+
+                    }else if(currentPosition == 6) {
+                        textToSpeech.setLanguage(Locale.KOREAN);
+
+                    }
+                } else
+                    // If there is no error set language
+                    if (status != TextToSpeech.ERROR) {
+
+                        // Default Language
+                        textToSpeech.setLanguage(Locale.ENGLISH);
+
+                    }
+
 
                 }
 
-
-            }
         });
 
 
@@ -180,30 +214,44 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Restore pitch and speed values on orientation change
+        if (savedInstanceState!=null){
+            pitchValue = savedInstanceState.getFloat("pitchValue");
+            speedValue = savedInstanceState.getFloat("speedValue");
+            textToSpeech.setSpeechRate(speedValue+1.0f);
+            textToSpeech.setPitch(pitchValue+1.0f);
 
+        }
 
     }
 
 
     public float getConvertedValue(int ratio){
-
         pitchValue = .5f * ratio;
-
         return pitchValue;
     }
 
     public float getConvertedValueSpeed(int ratio){
-
         pitchValue = .5f * ratio;
         return pitchValue;
     }
     @Override
     protected void onPause() {
-
         if (textToSpeech != null){
             textToSpeech.stop();
             textToSpeech.shutdown();
         }
         super.onPause();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // Save pitch, speed, and language position values in Bundled state
+        outState.putFloat("pitchValue", pitchValue);
+        outState.putFloat("speedValue", speedValue);
+        outState.putInt("currentPosition", currentPosition);
+
     }
 }
